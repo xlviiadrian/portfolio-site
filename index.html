@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XLVII MEDIA — Portfolio</title>
+  <meta name="description" content="Portfolio of XLVII MEDIA — creative direction, graphic design, editorial design, and motion.">
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js for simple interactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- PageFlip (StPageFlip) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+  <style>
+    /* Smooth fonts & subtle grain */
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    .grain:before{content:"";position:absolute;inset:0;background-image:url('https://cdn.jsdelivr.net/gh/aykutkardas/particles.css/grain.png');opacity:.08;pointer-events:none;mix-blend-mode:multiply}
+
+    /* Card images */
+    .page__content img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* Flipbook wrapper centering */
+    .flip-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background: #111;       /* subtle backdrop behind pages */
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      /* size is set dynamically via JS to match 1-page or spread aspect */
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;      /* safety max */
+      max-height: 1000px;     /* safety max */
+    }
+    #flipbook { width: 100%; height: 100%; }
+    .pageflip { width: 100%; height: 100%; }
+    .page__content img { object-fit: contain; border-radius: 6px; }
+  </style>
+</head>
+<body class="bg-neutral-950 text-neutral-100 selection:bg-neutral-200 selection:text-neutral-900">
+  <!-- Page wrapper -->
+  <div class="relative grain min-h-screen">
+    <!-- Header / Nav -->
+    <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#" class="font-semibold tracking-tight text-xl">XLVII MEDIA</a>
+        <nav class="hidden md:flex items-center gap-7 text-sm">
+          <a href="#work" class="hover:opacity-80">Work</a>
+          <a href="#about" class="hover:opacity-80">About</a>
+          <a href="#contact" class="hover:opacity-80">Contact</a>
+          <button class="px-4 py-2 rounded-2xl bg-neutral-100 text-neutral-900 hover:bg-white" x-data x-on:click="$dispatch('open-flipbook')">Open Magazine</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+      <div class="grid md:grid-cols-2 gap-10 items-end">
+        <div>
+          <h1 class="text-4xl md:text-6xl font-semibold leading-tight tracking-tight">Creative Direction & Editorial Design</h1>
+          <p class="mt-5 text-neutral-300 max-w-xl">The Evolution & Portfolio of [XLVII MEDIA] Publication by Adrian Medina. First issue avaliable exclusively at xlvii47.com. Inquiries: xlviiadrian@gmail.com → (361)-739-2400 <em>© XLVII MEDIA 2025</em>.</p>
+          <div class="mt-8 flex gap-3">
+            <button class="px-5 py-3 rounded-2xl bg-white text-neutral-900 hover:bg-neutral-100" x-data x-on:click="$dispatch('open-flipbook')">View Flipbook</button>
+            <a href="#work" class="px-5 py-3 rounded-2xl border border-neutral-700 hover:border-neutral-500">Featured Media</a>
+          </div>
+        </div>
+        <div class="aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-900 shadow-2xl">
+          <img alt="Portfolio preview" src="./pages/1.jpg" class="w-full h-full object-cover opacity-90"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Grid -->
+    <section id="work" class="max-w-7xl mx-auto px-6 pb-20">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl md:text-3xl font-semibold">Featured Media</h2>
+        <button class="text-sm underline underline-offset-4 opacity-80 hover:opacity-100" x-data x-on:click="$dispatch('open-flipbook')">Open Flipbook</button>
+      </div>
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+         <a href="https://www.youtube.com/watch?v=Lsh9cE0y1Pg&t=496s" target="_blank" class="block">
+  <article class="rounded-3xl overflow-hidden bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition hover:shadow-lg">
+          <img src="./assets/projects/myproject1.jpg" alt="My Project" class="h-56 w-full object-cover"/>
+          <div class="p-5">
+            <h3 class="font-medium">AddyGoat - The FOURSEVEN Interview | #17</h3>
+            <p class="text-sm text-neutral-400 mt-1">Meet FOURSEVEN—a talented producer, graphic designer, editor, artist, and a close friend. In this long-awaited conversation, we delved into his future ambitions, explored artistic topics, and discussed the current state of the music scene in Corpus Christi. I hope you enjoy this insightful exchange.</p>
+          </div>
+        </article>
+        </a>
+        <!-- Card 2 -->
+        <a href="https://fadeddecade.com"
+   target="_blank" rel="noopener noreferrer"
+   class="block">
+  <article class="rounded-3xl overflow-hidden bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition hover:shadow-lg">
+    <img src="./assets/projects/myproject2.jpg" alt="FADED DECADE magazine cover" class="h-56 w-full object-cover"/>
+    <div class="p-5">
+      <h3 class="font-medium">Mag Vol.1 — FADED DECADE</h3>
+      <p class="text-sm text-neutral-400 mt-1">
+        創造性に挑み / www.fadeddecade.com / FADED DECADE / 1310 Nance St Ste G, Houston, TX 77002 / 2025 / Faded Decade Magazine / Creative direction by Adrian Medina (@adrianxlvii) / “The Underground Standard” / Publication & Design by: xlvii media (7.19.2025) / XLVII47.com / 2025 / Design, identity, and underground media— to challenge creativity, document culture, and bring bold, cinematic ideas to life across music, fashion, and marketing, & more. / 創造性に挑み
+      </p>
+    </div>
+  </article>
+</a>
+        <!-- Card 3 -->
+        <a href="https://www.youtube.com/watch?v=QO3-AAVTeDA&t=16s"
+   target="_blank" rel="noopener noreferrer"
+   class="block">
+  <article class="rounded-3xl overflow-hidden bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition hover:shadow-lg">
+    <img src="./assets/projects/myproject3.jpg" alt="FADED DECADE magazine cover" class="h-56 w-full object-cover"/>
+    <div class="p-5">
+      <h3 class="font-medium">VICE - How to Hitchhike Across America: Thumbs Up Season 1 (Part 1/5)</h3>
+      <p class="text-sm text-neutral-400 mt-1">A deep dive into the art of hitchhiking, exploring the culture, the risks, and the stories from the road.</p>
+          </div>
+        </article>
+        </a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="max-w-5xl mx-auto px-6 pb-24">
+      <div class="rounded-3xl border border-neutral-800 bg-neutral-900/60 p-8 md:p-12">
+        <h2 class="text-2xl md:text-3xl font-semibold">About</h2>
+        <p class="mt-4 text-neutral-300 leading-relaxed">With over eight years of experience, I’ve built a foundation in creative direction, graphic design, and media, supported by a broad range of complementary skills. My background extends into music production, audio engineering, video editing, communication, branding, software development, and screen printing, giving me a versatile approach to visual and creative problem-solving. Design has remained at the core of my work—refining my ability to craft aesthetics, develop strategies, and shape visions for artists, businesses, and collaborators. My multidisciplinary background allows me to bridge art, media, and technology, creating work that is not only visually compelling but also strategically impactful.</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="max-w-5xl mx-auto px-6 pb-28">
+      <div class="rounded-3xl bg-gradient-to-br from-neutral-900 to-neutral-800 border border-neutral-700 p-8 md:p-12">
+        <h2 class="text-2xl md:text-3xl font-semibold">Contact</h2>
+        <p class="mt-3 text-neutral-300">For serious inquiries: <a href="mailto:xlviiadrian@gmail.com" class="underline underline-offset-4">xlviiadrian@gmail.com</a></p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+  <footer class="mt-20 border-t border-neutral-800/70">
+  <div class="max-w-7xl mx-auto px-6 py-8 grid gap-6 text-sm text-neutral-400
+              md:grid-cols-[1fr_auto_1fr] md:items-center">
+    <!-- Left: copyright -->
+    <div class="order-2 md:order-1 text-center md:text-left">
+      © <span x-data x-text="new Date().getFullYear()"></span> XLVII MEDIA. All rights reserved.
+    </div>
+
+    <!-- Center: socials -->
+    <div class="order-1 md:order-2 flex justify-center gap-5">
+      <a href="https://www.instagram.com/adrianxlvii" target="_blank" rel="noopener"
+         aria-label="Instagram"
+         class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-neutral-700 transition">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://x.com/xlviiadrian" target="_blank" rel="noopener"
+         aria-label="Twitter/X"
+         class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-neutral-700 transition">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/xlvii47" target="_blank" rel="noopener"
+         aria-label="LinkedIn"
+         class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-neutral-700 transition">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+
+    <!-- Right: CTA -->
+    <div class="order-3 text-center md:text-right">
+      <button class="hover:text-neutral-200" x-data x-on:click="$dispatch('open-flipbook')">
+        Open Magazine
+      </button>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Flipbook Modal -->
+    <div x-data="flipbookModal()" x-on:open-flipbook.window="open()" x-show="show" x-transition.opacity class="fixed inset-0 z-[60]">
+      <div class="absolute inset-0 bg-black/70" @click="close()"></div>
+      <div class="absolute inset-6 md:inset-10 lg:inset-20 flex items-center justify-center">
+        <div class="relative w-full max-w-6xl mx-auto rounded-2xl border border-neutral-800 bg-neutral-950 p-4 md:p-6 shadow-2xl">
+          <button @click="close()" class="absolute -top-3 -right-3 md:-top-4 md:-right-4 h-10 w-10 rounded-full bg-white text-neutral-900 font-bold shadow">×</button>
+
+          <!-- Flipbook responsive wrapper (sized by JS) -->
+          <div class="flip-wrap" x-ref="wrap">
+            <div id="flipbook"></div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between text-sm text-neutral-400">
+            <div class="flex items-center gap-3">
+              <button class="px-3 py-1.5 rounded-md bg-neutral-100 text-neutral-900" @click="flip.prev()">Prev</button>
+              <button class="px-3 py-1.5 rounded-md bg-neutral-100 text-neutral-900" @click="flip.next()">Next</button>
+            </div>
+            <div class="flex items-center gap-3">
+              <span x-text="pageLabel"></span>
+              <a :href="downloadHref" download class="px-3 py-1.5 rounded-md border border-neutral-600 hover:border-neutral-400">Download PDF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /Modal -->
+  </div><!-- /Page wrapper -->
+
+  <!-- Flipbook Logic -->
+  <!-- Flipbook Logic -->
+<script>
+  function flipbookModal(){
+    return {
+      show:false,
+      flip:null,
+      pageLabel:'',
+      downloadHref:'https://drive.google.com/uc?export=download&id=1-Eh70Mv8EGFGN9J9jR9a7hLE65DPZvug',
+
+      // base single-page size (NOT spread). ~4:5 ratio
+      PAGE_W: 720,
+      PAGE_H: 900,
+
+      open(){
+        this.show = true;
+        this.$nextTick(() => this.initFlip());
+      },
+      close(){ this.destroyFlip(); this.show = false; },
+
+      _setWrapSize(usePortrait){
+        const wrap = this.$refs.wrap;
+        if (!wrap) return;
+
+        const singleAR = this.PAGE_W / this.PAGE_H;
+        const spreadAR = (this.PAGE_W * 2) / this.PAGE_H;
+        const ar = usePortrait ? singleAR : spreadAR;
+
+        const maxW = Math.min(window.innerWidth * 0.95, 1200);
+        const maxH = Math.min(window.innerHeight * 0.85, 1000);
+
+        let w = Math.min(maxW, maxH * ar);
+        let h = w / ar;
+
+        wrap.style.width  = `${w}px`;
+        wrap.style.height = `${h}px`;
+      },
+
+      _isMobilePortrait(){
+        return window.matchMedia('(max-width: 900px), (pointer:coarse)').matches;
+      },
+
+      initFlip(){
+        const PAGES = 80;
+        const images = Array.from({length:PAGES}, (_,i)=>`./pages/${i+1}.jpg`);
+
+        const container = document.getElementById('flipbook');
+        container.innerHTML = '';
+        const book = document.createElement('div');
+        book.className = 'pageflip';
+        container.appendChild(book);
+
+        images.forEach((src, idx) => {
+          const page = document.createElement('div');
+          page.className = 'page';
+          page.innerHTML = `<div class="page__content"><img src="${src}" alt="Page ${idx+1}" loading="lazy"/></div>`;
+          book.appendChild(page);
+        });
+
+        const usePortrait = this._isMobilePortrait();
+
+        this.flip = new St.PageFlip(book, {
+          width: this.PAGE_W,
+          height: this.PAGE_H,
+          size: 'stretch',
+          showCover: true,
+          usePortrait,
+          maxShadowOpacity: 0.3,
+          mobileScrollSupport: true,
+          disableFlipByClick: false
+        });
+
+        this.flip.loadFromHTML(book.querySelectorAll('.page'));
+
+        this._setWrapSize(usePortrait);
+
+        const updateLabel = () => {
+          const c = this.flip.getCurrentPageIndex() + 1;
+          const total = this.flip.getPageCount();
+          this.pageLabel = `Page ${c} / ${total}`;
+        };
+        this.flip.on('flip', updateLabel);
+        updateLabel();
+
+        this.flip.next = this.flip.flipNext.bind(this.flip);
+        this.flip.prev = this.flip.flipPrev.bind(this.flip);
+
+        const onResize = () => {
+          const portrait = this._isMobilePortrait();
+          this.flip.update({ usePortrait: portrait });
+          this._setWrapSize(portrait);
+        };
+        window.addEventListener('resize', onResize, { passive:true });
+        window.addEventListener('orientationchange', onResize, { passive:true });
+        this._cleanupResize = () => {
+          window.removeEventListener('resize', onResize);
+          window.removeEventListener('orientationchange', onResize);
+        };
+
+        requestAnimationFrame(() => {
+          const p2 = this._isMobilePortrait();
+          this.flip.update({ usePortrait: p2 });
+          this._setWrapSize(p2);
+        });
+      },
+
+      destroyFlip(){
+        if (this._cleanupResize) this._cleanupResize();
+        if (this.flip){ this.flip.destroy(); this.flip = null; }
+      }
+    }
+  }
+</script>
+
+  
+
+  <!-- Simple Analytics placeholder (optional) -->
+  <!-- <script defer data-domain="xlvii47.com" src="https://plausible.io/js/script.js"></script> -->
+</body>
+</html>
