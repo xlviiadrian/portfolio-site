@@ -1,0 +1,26 @@
+{
+  "_comment": "Manifest of content overrides merged by id onto the built-in set.",
+  "magazines": [
+    "content/magazines/magazine-01.json",
+    "content/magazines/magazine-02.json",
+    "content/magazines/magazine-03.json",
+    "content/magazines/magazine-04.json",
+    "content/magazines/magazine-05.json",
+    "content/magazines/magazine-06.json",
+    "content/magazines/magazine-07.json",
+    "content/magazines/magazine-08.json",
+    "content/magazines/magazine-09.json",
+    "content/magazines/magazine-10.json",
+    "content/magazines/magazine-11.json",
+    "content/magazines/magazine-12.json",
+    "content/magazines/magazine-13.json",
+    "content/magazines/magazine-14.json",
+    "content/magazines/magazine-15.json",
+    "content/magazines/magazine-16.json",
+    "content/magazines/magazine-18.json",
+    "content/magazines/magazine-19.json",
+    "content/magazines/magazine-20.json",
+    "content/magazines/magazine-21.json"
+  ],
+  "cds": []
+}
