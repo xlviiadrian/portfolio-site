@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>XLVII — A Curated Archive</title>
 <meta name="description" content="XLVII MEDIA — an immersive editorial archive. A virtual gallery of magazines and music." />
 
@@ -26,7 +26,9 @@
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hidden;}
   body{font-family:var(--mono);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-       overscroll-behavior:none;touch-action:none;}
+       overscroll-behavior:none;touch-action:pan-x pan-y;}
+  /* Overlays need scroll on mobile */
+  #detail,#about,#contact,#media,#reader,#flyer{touch-action:auto;-webkit-overflow-scrolling:touch;}
   canvas{display:block;}
   a{color:inherit;}
 
@@ -36,7 +38,7 @@
     background:radial-gradient(120% 120% at 50% 42%, transparent 52%, rgba(0,0,0,.55) 100%);}
 
   /* ---------- scene canvas host ---------- */
-  #scene{position:fixed;inset:0;z-index:1;cursor:grab;}
+  #scene{position:fixed;inset:0;z-index:1;cursor:grab;touch-action:none;}
   #scene.grabbing{cursor:grabbing;}
   #scene.pointing{cursor:pointer;}
 
@@ -257,10 +259,21 @@
     #top{padding:14px 14px;gap:10px;}
     .brand img{height:14px;}
     .brand .tag{display:none;}
-    nav{gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:64vw;scrollbar-width:none;}
+    nav{gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:64vw;scrollbar-width:none;}
     nav::-webkit-scrollbar{display:none;}
-    .navbtn{padding:7px 7px;font-size:9px;letter-spacing:.12em;white-space:nowrap;}
-    .navbtn.active::after{left:7px;right:7px;}
+    .navbtn{
+      padding:9px 11px;font-size:9px;letter-spacing:.18em;white-space:nowrap;
+      background:rgba(233,230,221,.07);
+      border:1px solid rgba(233,230,221,.16);
+      color:rgba(233,230,221,.72);
+      border-radius:2px;
+    }
+    .navbtn.active{
+      color:rgba(233,230,221,1);
+      background:rgba(233,230,221,.14);
+      border-color:rgba(233,230,221,.32);
+    }
+    .navbtn.active::after{display:none;}
     #hud{padding:0 14px 16px;}
     #hud .meta{display:none;}
     #hud #hint{font-size:9px;letter-spacing:.1em;}
@@ -294,7 +307,7 @@
     #flyer img{max-height:78vh;}
   }
   @media (max-width:380px){
-    .navbtn{font-size:8px;padding:6px 5px;}
+    .navbtn{font-size:8px;padding:7px 8px;}
     nav{max-width:60vw;}
   }
 </style>
@@ -800,9 +813,9 @@ host.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
-scene.fog = new THREE.FogExp2(0x000000, 0.045);
+scene.fog = new THREE.FogExp2(0x000000, 0.028);
 
-const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 0.1, 500);
 camera.position.set(0, 0.2, 9.2);
 
 // environment for reflections
@@ -820,13 +833,13 @@ scene.add(key); scene.add(key.target);
 const rim = new THREE.DirectionalLight(0x88aaff, 1.1); rim.position.set(-6,3,-5); scene.add(rim);
 const warm = new THREE.PointLight(0xffcaa0, 18, 26); warm.position.set(-4,-1,5); scene.add(warm);
 
-// back wall to catch shadows (subtle gallery wall)
+// back wall to catch shadows (subtle gallery wall) — large enough to never show edges
 const wallMat = new THREE.MeshStandardMaterial({color:0x070707, roughness:0.95, metalness:0});
-const wall = new THREE.Mesh(new THREE.PlaneGeometry(60,40), wallMat);
+const wall = new THREE.Mesh(new THREE.PlaneGeometry(400,200), wallMat);
 wall.position.z = -3.2; wall.receiveShadow = true; scene.add(wall);
 // faint floor reflection-ish
-const floorMat = new THREE.MeshStandardMaterial({color:0x050505, roughness:0.55, metalness:0.2});
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(60,40), floorMat);
+const floorMat = new THREE.MeshStandardMaterial({color:0x070707, roughness:0.95, metalness:0});
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(400,200), floorMat);
 floor.rotation.x = -Math.PI/2; floor.position.y = -5.4; floor.receiveShadow = true; scene.add(floor);
 
 /* groups per section */
@@ -847,7 +860,7 @@ const state = {
   dolly:0,
   raycast:true
 };
-let PAN_LIMIT = {x: isMobile?2.0:3.0, y:1.4};
+let PAN_LIMIT = {x: isMobile?3.2:3.0, y:isMobile?2.2:1.4};
 
 let CONTENT = null;
 const magObjects = [];   // {group, mesh, data}
@@ -970,8 +983,8 @@ function computePanLimit(){
   const objs = activeObjects();
   let mx=0, my=0;
   objs.forEach(o=>{ const p=o.userData.home.p; mx=Math.max(mx,Math.abs(p.x)); my=Math.max(my,Math.abs(p.y)); });
-  PAN_LIMIT.x = Math.max(2.0, mx + (isMobile?1.4:2.2));
-  PAN_LIMIT.y = Math.max(1.4, my + (isMobile?1.4:1.6));
+  PAN_LIMIT.x = Math.max(2.0, mx + (isMobile?2.8:2.2));
+  PAN_LIMIT.y = Math.max(1.4, my + (isMobile?2.2:1.6));
 }
 
 function onMove(cx,cy){
@@ -1060,21 +1073,32 @@ function pdown(cx,cy){ state.drag.active=true; state.drag.sx=cx; state.drag.sy=c
 function pdrag(cx,cy){
   if(!state.drag.active) return;
   const dx=cx-state.drag.sx, dy=cy-state.drag.sy;
-  if(Math.abs(dx)+Math.abs(dy)>6) state.drag.moved=true;
+  const threshold = isMobile ? 10 : 6;
+  if(Math.abs(dx)+Math.abs(dy)>threshold) state.drag.moved=true;
   if(state.focusing||state.reading) return;
-  state.panTarget.x = THREE.MathUtils.clamp(state.drag.px - dx*0.006, -PAN_LIMIT.x, PAN_LIMIT.x);
-  state.panTarget.y = THREE.MathUtils.clamp(state.drag.py + dy*0.005, -PAN_LIMIT.y, PAN_LIMIT.y);
+  const sens = isMobile ? 0.012 : 0.006;
+  const sensY = isMobile ? 0.010 : 0.005;
+  state.panTarget.x = THREE.MathUtils.clamp(state.drag.px - dx*sens, -PAN_LIMIT.x, PAN_LIMIT.x);
+  state.panTarget.y = THREE.MathUtils.clamp(state.drag.py + dy*sensY, -PAN_LIMIT.y, PAN_LIMIT.y);
 }
 function pup(cx,cy,isTouch){
   sceneEl.classList.remove('grabbing');
   const wasDrag=state.drag.moved; state.drag.active=false;
   if(wasDrag) return;
   if(state.focusing||state.reading) return;
-  // tap/click select
-  if(isTouch){ onMove(cx,cy); }
-  if(!state.raycast) return;
-  const obj=pickAt();
-  if(obj) selectObject(obj);
+  // tap/click select — on mobile use slight delay to ensure coordinates settled
+  if(isTouch){
+    onMove(cx,cy);
+    setTimeout(()=>{
+      if(!state.raycast||state.reading||state.focusing) return;
+      const obj=pickAt();
+      if(obj) selectObject(obj);
+    }, 50);
+  } else {
+    if(!state.raycast) return;
+    const obj=pickAt();
+    if(obj) selectObject(obj);
+  }
 }
 
 // mouse
@@ -1085,20 +1109,24 @@ window.addEventListener('mouseup', e=>pup(e.clientX,e.clientY,false));
 
 // touch
 sceneEl.addEventListener('touchstart', e=>{
+  if(state.reading||state.focusing) return; // don't capture touches when overlay is open
   if(e.touches.length===2){ state.pinch.active=true; state.pinch.d0=touchDist(e); state.pinch.z0=camera.position.z; return; }
+  e.preventDefault(); // prevent scroll/tap-highlight interference
   const t=e.touches[0]; onMove(t.clientX,t.clientY); pdown(t.clientX,t.clientY);
-},{passive:true});
+},{passive:false});
 sceneEl.addEventListener('touchmove', e=>{
   if(state.pinch.active && e.touches.length===2){
     const d=touchDist(e); const z=THREE.MathUtils.clamp(state.pinch.z0*(state.pinch.d0/d), 5.5, 12);
     if(!state.focusing&&!state.reading) camera.position.z = z; return;
   }
+  if(state.reading||state.focusing) return;
+  e.preventDefault(); // prevent page scroll while dragging gallery
   const t=e.touches[0]; pdrag(t.clientX,t.clientY);
-},{passive:true});
+},{passive:false});
 sceneEl.addEventListener('touchend', e=>{
   if(state.pinch.active && e.touches.length<2){ state.pinch.active=false; }
   const t=(e.changedTouches&&e.changedTouches[0]); if(t) pup(t.clientX,t.clientY,true);
-},{passive:true});
+},{passive:false});
 function touchDist(e){const a=e.touches[0],b=e.touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);}
 
 // wheel dolly (desktop)
@@ -1356,9 +1384,9 @@ function rup(cx){
 stage.addEventListener('mousedown',e=>rdown(e.clientX));
 window.addEventListener('mousemove',e=>{ if(R.leaf) rmove(e.clientX); });
 window.addEventListener('mouseup',e=>{ if(state.reading) rup(e.clientX); });
-stage.addEventListener('touchstart',e=>{rdown(e.touches[0].clientX);},{passive:true});
-stage.addEventListener('touchmove',e=>{ if(R.leaf){rmove(e.touches[0].clientX);} },{passive:true});
-stage.addEventListener('touchend',e=>{ rup((e.changedTouches[0]||{}).clientX||0); },{passive:true});
+stage.addEventListener('touchstart',e=>{e.preventDefault();rdown(e.touches[0].clientX);},{passive:false});
+stage.addEventListener('touchmove',e=>{ e.preventDefault(); if(R.leaf){rmove(e.touches[0].clientX);} },{passive:false});
+stage.addEventListener('touchend',e=>{ e.preventDefault(); rup((e.changedTouches[0]||{}).clientX||0); },{passive:false});
 
 function openReader(m){
   buildBook(m);
@@ -1405,8 +1433,10 @@ function closeFlyer(){
   restoreSelected();
 }
 document.getElementById('flyerClose').onclick=closeFlyer;
+document.getElementById('flyerClose').addEventListener('touchend',e=>{e.preventDefault();closeFlyer();},{passive:false});
 flyer.onclick=(e)=>{ if(e.target===flyer) closeFlyer(); };
 document.getElementById('rClose').onclick=closeReader;
+document.getElementById('rClose').addEventListener('touchend',e=>{e.preventDefault();closeReader();},{passive:false});
 function flash(btn,msg){const o=btn.textContent;btn.textContent=msg;setTimeout(()=>btn.textContent=o,1400);}
 
 window.addEventListener('keydown',e=>{
