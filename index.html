@@ -241,6 +241,53 @@
   .vcard:hover .play{opacity:1;transform:scale(1);}
   .vcard:hover .vtitle{color:var(--ink);}
 
+  /* ---------- Rolling Loud — asset dump ---------- */
+  #rl{position:fixed;inset:0;z-index:50;display:none;background:rgba(0,0,0,.97);opacity:0;overflow-y:auto;}
+  #rl.show{display:block;}
+  #rl .wrap{max-width:1600px;margin:0 auto;padding:92px clamp(18px,4vw,46px) 90px;}
+  #rl .close{position:fixed;top:22px;right:clamp(18px,4vw,46px);z-index:2;}
+  #rl .k{font-size:9.5px;letter-spacing:.45em;text-transform:uppercase;color:var(--accent);}
+  #rl h2{font-family:var(--serif);font-weight:300;font-size:clamp(30px,5vw,52px);line-height:1.04;margin:14px 0 6px;}
+  #rl h2 em{font-style:italic;}
+  #rl .sub{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px;}
+  #rlGrid{column-gap:14px;column-count:6;}
+  @media(max-width:1280px){#rlGrid{column-count:4;}}
+  @media(max-width:760px){#rlGrid{column-count:3;}}
+  @media(max-width:480px){#rlGrid{column-count:2;}}
+  .rltile{break-inside:avoid;margin-bottom:14px;position:relative;background:#0e0e0e;
+    border:1px solid var(--line);overflow:hidden;cursor:pointer;
+    opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease),border-color .35s var(--ease);}
+  .rltile.in{opacity:1;transform:none;}
+  .rltile:hover{border-color:rgba(233,230,221,.4);}
+  .rltile img{display:block;width:100%;height:auto;background:#0e0e0e;
+    filter:saturate(.94) brightness(.94);transition:filter .45s var(--ease),transform .6s cubic-bezier(.2,.7,.2,1);}
+  .rltile:hover img{filter:saturate(1) brightness(1);transform:scale(1.04);}
+  #rlSentinel{height:1px;}
+  #rlNote{text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:9.5px;
+    letter-spacing:.3em;text-transform:uppercase;padding:30px 0 0;}
+  #rlEmpty{padding:70px 0;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.1em;}
+
+  /* Rolling Loud lightbox */
+  #rlLb{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:radial-gradient(130% 130% at 50% 40%,rgba(14,14,14,.72),rgba(0,0,0,.96));backdrop-filter:blur(4px);opacity:0;}
+  #rlLb.show{display:flex;}
+  #rlLb img{max-width:min(92vw,1100px);max-height:80vh;object-fit:contain;display:block;
+    border:1px solid rgba(255,255,255,.08);box-shadow:0 44px 90px -34px rgba(0,0,0,.95);}
+  #rlLb .lbclose{position:fixed;top:22px;right:clamp(18px,4vw,46px);z-index:3;}
+  #rlLb .lbnav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(10,10,10,.4);border:1px solid var(--line);
+    color:var(--ink);width:46px;height:46px;cursor:pointer;font-family:var(--mono);font-size:16px;transition:.3s var(--ease);}
+  #rlLb .lbnav:hover{background:var(--ink);color:#000;}
+  #rlPrev{left:clamp(10px,2vw,30px);} #rlNext{right:clamp(10px,2vw,30px);}
+  #rlLb .lbcap{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:flex-end;align-items:center;gap:20px;
+    padding:20px clamp(18px,4vw,46px);background:linear-gradient(transparent,rgba(0,0,0,.7));}
+  #rlLb .lbcap .info{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);}
+  #rlLb .lbcap .info b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:15px;letter-spacing:0;text-transform:none;color:var(--ink);}
+  #rlLb .lbdl{border:1px solid var(--line);background:transparent;color:var(--ink);font-family:var(--mono);font-size:9.5px;
+    letter-spacing:.24em;text-transform:uppercase;padding:11px 18px;text-decoration:none;white-space:nowrap;transition:.3s var(--ease);}
+  #rlLb .lbdl:hover{background:var(--ink);color:#000;}
+  #rlCount{position:fixed;top:24px;left:clamp(18px,4vw,46px);font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;color:var(--ink-faint);}
+  @media(max-width:600px){#rlLb .lbnav{width:38px;height:38px;}}
+
   /* ---------- loader ---------- */
   #loader{position:fixed;inset:0;z-index:80;background:#000;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:0;}
@@ -330,6 +377,7 @@
   <nav>
     <button class="navbtn active" data-section="magazines">Magazines</button>
     <button class="navbtn" data-section="cds">Music</button>
+    <button class="navbtn" id="rlBtn">Rolling Loud</button>
     <button class="navbtn" id="mediaBtn">Media</button>
     <button class="navbtn" id="aboutBtn">About</button>
     <button class="navbtn" id="contactBtn">Contact</button>
@@ -428,6 +476,31 @@
     <h2>Featured <em>Media</em></h2>
     <div class="sub">Inspirations, Homies &amp; Projects I&rsquo;ve Been a Part Of</div>
     <div id="mediaGrid"></div>
+  </div>
+</div>
+
+<!-- rolling loud -->
+<div id="rl">
+  <button class="iconbtn close" id="rlClose">✕</button>
+  <div class="wrap">
+    <div class="k">XLVII · Rolling Loud</div>
+    <h2>Rolling <em>Loud</em></h2>
+    <div class="sub" id="rlSub">2025–2026</div>
+    <div id="rlGrid"></div>
+    <div id="rlSentinel"></div>
+    <div id="rlNote"></div>
+  </div>
+</div>
+
+<!-- rolling loud lightbox -->
+<div id="rlLb">
+  <div id="rlCount"></div>
+  <button class="iconbtn lbclose" id="rlLbClose">✕</button>
+  <button class="lbnav" id="rlPrev">‹</button>
+  <img id="rlLbImg" alt="" />
+  <button class="lbnav" id="rlNext">›</button>
+  <div class="lbcap">
+    <a class="lbdl" id="rlLbDl" download>Download ↓</a>
   </div>
 </div>
 
@@ -1482,7 +1555,8 @@ document.querySelectorAll('.navbtn[data-section]').forEach(b=>b.onclick=()=>swit
 const about=document.getElementById('about');
 const contact=document.getElementById('contact');
 const media=document.getElementById('media');
-const OVERLAYS=[about,contact,media];
+const rl=document.getElementById('rl');
+const OVERLAYS=[about,contact,media,rl];
 function showOverlay(el){ OVERLAYS.forEach(o=>o.classList.remove('show')); el.classList.add('show'); gsap.fromTo(el,{opacity:0},{opacity:1,duration:.5}); }
 function hideOverlay(el){ gsap.to(el,{opacity:0,duration:.4,onComplete(){el.classList.remove('show');}}); }
 document.getElementById('aboutBtn').onclick=()=>showOverlay(about);
@@ -1523,7 +1597,85 @@ function buildMedia(){
 }
 document.getElementById('mediaBtn').onclick=()=>{ buildMedia(); showOverlay(media); };
 document.getElementById('mediaClose').onclick=()=>hideOverlay(media);
-window.addEventListener('keydown',e=>{ if(e.key==='Escape'){ OVERLAYS.forEach(o=>{ if(o.classList.contains('show')) hideOverlay(o); }); } });
+
+/* ---- ROLLING LOUD: asset dump ---- */
+(function(){
+  const RL_BATCH=60;
+  let ALL=[], order=[], filtered=[], shown=0, loaded=false;
+  const grid=document.getElementById('rlGrid');
+  const note=document.getElementById('rlNote');
+  const sub=document.getElementById('rlSub');
+
+  function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+  const revealIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revealIO.unobserve(e.target);}});},{rootMargin:'140px'});
+
+  function tile(a){
+    const el=document.createElement('div');
+    el.className='rltile';
+    el.style.aspectRatio=a.w+' / '+a.h;
+    el.innerHTML='<img loading="lazy" alt="" src="'+a.thumb+'">';
+    el.onclick=()=>openLb(a._idx);
+    return el;
+  }
+  function renderBatch(){
+    const slice=filtered.slice(shown,shown+RL_BATCH), frag=document.createDocumentFragment();
+    slice.forEach(a=>{const t=tile(a);frag.appendChild(t);revealIO.observe(t);});
+    grid.appendChild(frag); shown+=slice.length;
+    note.textContent = shown>=filtered.length ? (filtered.length?'— '+filtered.length+' assets —':'') : shown+' / '+filtered.length;
+  }
+  function reset(){
+    grid.innerHTML=''; shown=0;
+    if(!filtered.length){grid.innerHTML='<div id="rlEmpty">No assets match.</div>';note.textContent='';return;}
+    renderBatch();
+  }
+  function applyFilter(){ filtered=order.slice(); reset(); }
+  new IntersectionObserver(es=>{if(es[0].isIntersecting&&shown<filtered.length)renderBatch();},{rootMargin:'700px'}).observe(document.getElementById('rlSentinel'));
+
+  // lightbox
+  const lb=document.getElementById('rlLb'),lbImg=document.getElementById('rlLbImg'),
+        lbDl=document.getElementById('rlLbDl'),lbCount=document.getElementById('rlCount');
+  let lbIdx=-1;
+  function openLb(idx){
+    lbIdx=idx; const a=ALL[idx];
+    lbImg.src=a.full; lbImg.alt='';
+    lbDl.href=a.full; lbDl.download=a.name+'.webp';
+    const pos=filtered.findIndex(x=>x._idx===idx);
+    lbCount.textContent=(pos+1)+' / '+filtered.length;
+    lb.classList.add('show'); gsap.fromTo(lb,{opacity:0},{opacity:1,duration:.35});
+  }
+  function closeLb(){ gsap.to(lb,{opacity:0,duration:.3,onComplete(){lb.classList.remove('show');}}); lbIdx=-1; }
+  function step(d){ const pos=filtered.findIndex(x=>x._idx===lbIdx); const n=(pos+d+filtered.length)%filtered.length; openLb(filtered[n]._idx); }
+  document.getElementById('rlLbClose').onclick=closeLb;
+  document.getElementById('rlPrev').onclick=step.bind(null,-1);
+  document.getElementById('rlNext').onclick=step.bind(null,1);
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLb();});
+  window.RL_LB_OPEN=()=>lb.classList.contains('show');
+  window.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('show'))return;
+    if(e.key==='Escape'){e.stopPropagation();closeLb();}
+    if(e.key==='ArrowLeft')step(-1);
+    if(e.key==='ArrowRight')step(1);
+  },true);
+
+  function load(){
+    if(loaded)return; loaded=true;
+    fetch('assets/rolling-loud/manifest.json?v='+Date.now())
+      .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(m=>{
+        ALL=m.assets.map((a,i)=>({...a,_idx:i}));
+        order=shuffle(ALL); filtered=order.slice();
+        sub.textContent=m.count+' assets — 2025–2026';
+        reset();
+      })
+      .catch(err=>{grid.innerHTML='<div id="rlEmpty">Couldn\'t load manifest ('+err.message+').<br>Run build_manifest.py and commit assets/rolling-loud/.</div>';});
+  }
+  window.RL_LOAD=load;
+})();
+
+document.getElementById('rlBtn').onclick=()=>{ window.RL_LOAD(); showOverlay(rl); };
+document.getElementById('rlClose').onclick=()=>hideOverlay(rl);
+window.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(window.RL_LB_OPEN&&window.RL_LB_OPEN())return; OVERLAYS.forEach(o=>{ if(o.classList.contains('show')) hideOverlay(o); }); } });
 
 /* ============================================================
    RENDER LOOP
