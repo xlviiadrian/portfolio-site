@@ -618,7 +618,8 @@ function fallbackContent(){
     ['FADED DECADE — “Stomp” T-Shirt','FADED DECADE — STOMP','Merch',2025,'#9e3b32'],
     ['LIVEINRAGE — Editorial Design Work (styled by @joshey.s)','LIVEINRAGE','Editorial',2025,'#a8324a'],
     ['Flyer Work for Up-and-Coming Artist “E Blue”','E BLUE','Flyer',2025,'#3f5d7a'],
-    ['XLVII MEDIA — Kevin Abstract’s “Blush” Texas Tour Recap (June 2025)','BLUSH — TX TOUR','Tour Recap',2025,'#6d4a6e']
+    ['XLVII MEDIA — Kevin Abstract’s “Blush” Texas Tour Recap (June 2025)','BLUSH — TX TOUR','Tour Recap',2025,'#6d4a6e'],
+    ['FADED DECADE — “The Underground Standard” Lookbook','FADED DECADE — UNDERGROUND','Lookbook',2026,'#9e3b32']
   ];
   const magazines = M.map((row,idx)=>{
     const i=idx+1, [title,spineTitle,category,year,accent]=row;
@@ -1743,6 +1744,11 @@ async function boot(){
     .to('#loaderPct',{opacity:1,duration:.4},'<');
 
   CONTENT = await loadContent();
+  // Shuffle the gallery order on every load (Fisher–Yates) so the wall is
+  // arranged differently each visit. Each magazine keeps its own cover/issue/PDF;
+  // only the on-screen positions are randomized. Deep-links resolve by id, so
+  // sharing a specific edition still works regardless of order.
+  for(let i=CONTENT.magazines.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [CONTENT.magazines[i],CONTENT.magazines[j]]=[CONTENT.magazines[j],CONTENT.magazines[i]]; }
   if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
   try{ await logoImg.decode(); }catch(e){}
   logoReady = logoReady || logoImg.width>0;

@@ -1,0 +1,14 @@
+{
+  "id": "magazine-22",
+  "issue": 22,
+  "title": "FADED DECADE — “The Underground Standard” Lookbook",
+  "spineTitle": "FADED DECADE — UNDERGROUND",
+  "category": "Lookbook",
+  "year": 2026,
+  "accent": "#9e3b32",
+  "cover": "assets/covers/magazine-22-cover.jpg",
+  "link": "https://www.fadeddecade.com",
+  "pdf": "assets/magazines/22/portfolio.pdf",
+  "pdfPages": 6,
+  "pagesPath": "assets/magazines/22/pages/p-"
+}
