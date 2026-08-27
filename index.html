@@ -363,23 +363,63 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Adrian Medina",
-  "alternateName": ["adrianxlvii", "xlvii47", "Adrian XLVII", "Adrian47"],
-  "url": "https://www.xlvii47.com",
-  "jobTitle": "Brand Designer & Creative Director",
-  "description": "Freelance brand designer and creative director operating under XLVII MEDIA, and founder of ARCHVE, an independent print magazine documenting music, fashion, and culture.",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "XLVII MEDIA",
-    "url": "https://www.xlvii47.com"
-  },
-  "sameAs": [
-    "https://www.instagram.com/xlviihq/",
-    "https://www.linkedin.com/in/xlvii47/",
-    "https://x.com/xlviiadrian",
-    "https://archvemag.com",
-    "https://github.com/xlviiadrian"
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://www.xlvii47.com/#adrian",
+      "name": "Adrian Medina",
+      "alternateName": [
+        "adrianxlvii",
+        "xlvii47",
+        "Adrian XLVII",
+        "Adrian47"
+      ],
+      "url": "https://www.xlvii47.com",
+      "jobTitle": "Graphic Designer, Brand Designer & Creative Director",
+      "description": "Freelance graphic and brand designer and creative director operating under XLVII MEDIA, and founder of ARCHVE, an independent print magazine documenting music, fashion, and culture. Has worked as a graphic designer with Rolling Loud and with artists and labels including Z-RO, Kevin Abstract, Brockhampton, Atlantic Records, and Don Toliver.",
+      "worksFor": [
+        {
+          "@type": "Organization",
+          "name": "XLVII MEDIA",
+          "url": "https://www.xlvii47.com"
+        },
+        {
+          "@type": "Organization",
+          "name": "Rolling Loud",
+          "url": "https://www.rollingloud.com"
+        }
+      ],
+      "knowsAbout": [
+        "Graphic design",
+        "Brand design",
+        "Art direction",
+        "Editorial design",
+        "Rolling Loud",
+        "Z-RO",
+        "Kevin Abstract",
+        "Brockhampton",
+        "Atlantic Records",
+        "Don Toliver"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/xlviihq/",
+        "https://www.linkedin.com/in/xlvii47/",
+        "https://x.com/xlviiadrian",
+        "https://archvemag.com",
+        "https://github.com/xlviiadrian"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://archvemag.com/#organization",
+      "name": "ARCHVE Magazine",
+      "alternateName": "ARCHVE",
+      "url": "https://archvemag.com",
+      "description": "An independent print magazine documenting music, fashion, and culture, founded in Houston, TX.",
+      "founder": {
+        "@id": "https://www.xlvii47.com/#adrian"
+      }
+    }
   ]
 }
 </script>
